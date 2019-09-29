@@ -1,6 +1,8 @@
 package com.lending;
 
 import com.lending.dao.DBConnector;
+import com.lending.service.FilterService;
+import com.lending.service.UserViewService;
 
 import java.io.File;
 
@@ -13,9 +15,13 @@ public class App {
     }
 
     static void runApp() {
-        System.out.println(new File(".").getAbsolutePath());
         DBConnector db = new DBConnector();
+        UserViewService ui = new UserViewService();
+        FilterService filter = new FilterService();
+
         db.dropDB();
         db.connectToBanks();
+        ui.greeting();
+        filter.getUserTarget();
     }
 }

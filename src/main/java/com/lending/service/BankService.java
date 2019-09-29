@@ -9,7 +9,7 @@ import java.util.Set;
  * Created by BOSSJNR on 28.09.2019.
  */
 public class BankService {
-    Set<Bank> banks = new LinkedHashSet<Bank>();
+    Set<Bank> banks = new LinkedHashSet();
 
     public void connectToBankDB() {
 //        banks.add()
