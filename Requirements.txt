@@ -1,0 +1,11 @@
+Loans. Generate a set of offers to the client on target loans
+various banking services for the best choice. Consider the possibility of early
+repayment of the loan and / or increase in the credit line. Implement selection and search
+credit.
+
+SEPARATE PROJECT FOR EACH LAB. 
+Maven
+Git
+Separate branch for task. TESTS!!!!! Junit (could be mockito) for all classes with logic.
+Run from console
+All classes should be formatted and follow code convention. 
