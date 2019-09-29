@@ -13,6 +13,7 @@ import java.util.List;
  * Created by BOSSJNR on 28.09.2019.
  */
 public class TargetLoan {
+    private int id;
     private int bankId;
     private int loanSize;
     private int loanTermInDays;
@@ -25,6 +26,14 @@ public class TargetLoan {
 
     public void setBankId(int bankId) {
         this.bankId = bankId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getLoanSize() {
@@ -61,12 +70,9 @@ public class TargetLoan {
 
     @Override
     public String toString() {
-        return "TargetLoan{" +
-                "bankId=" + bankId +
-                ", loanSize=" + loanSize +
+        return  " loanSize=" + loanSize +
                 ", loanTermInDays=" + loanTermInDays +
                 ", loanInterest=" + loanInterest +
-                ", earlyRepayment=" + earlyRepayment +
-                '}';
+                ", earlyRepayment=" + earlyRepayment;
     }
 }

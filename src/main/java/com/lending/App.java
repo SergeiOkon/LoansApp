@@ -29,7 +29,7 @@ public class App {
         try {
             ui.showAvailableLoans();
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
     }
 }
