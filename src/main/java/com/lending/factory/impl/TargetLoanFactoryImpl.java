@@ -14,8 +14,6 @@ public class TargetLoanFactoryImpl implements TargetLoanFactory {
         targetLoan.setLoanInterest(loanInfo.getLoanInterest());
         targetLoan.setLoanTermInDays(loanInfo.getLoanTermInDays());
         targetLoan.setEarlyRepayment(loanInfo.isEarlyRepayment());
-        targetLoan.setAvailableOccupations(loanInfo.getAvailableOccupations());
-        targetLoan.setAvailableTargets(loanInfo.getAvailableTargets());
         return targetLoan;
     }
 }

@@ -26,11 +26,10 @@ public class App {
         ui.greeting();
         ui.requestTarget();
         ui.requestOccupation();
-        ui.showAvailableLoans();
         try {
-            loanInfo.formLoans();
+            ui.showAvailableLoans();
         } catch (SQLException e) {
-            e.printStackTrace();
+
         }
     }
 }

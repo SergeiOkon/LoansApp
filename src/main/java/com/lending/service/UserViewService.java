@@ -1,5 +1,7 @@
 package com.lending.service;
 
+import java.sql.SQLException;
+
 /**
  * Created by BOSSJNR on 28.09.2019.
  */
@@ -36,7 +38,7 @@ public class UserViewService {
         System.out.println(ANSI_CYAN + "\u23F9--Введите цифру отвечающую вашему запросу:---------------\u23F9" + ANSI_CYAN);
         filter.getUserOccupation();
     }
-    public void showAvailableLoans() {
+    public void showAvailableLoans() throws SQLException {
 
         filter.getAvailableLoans();
     }

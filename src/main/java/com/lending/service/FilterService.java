@@ -1,8 +1,13 @@
 package com.lending.service;
 
+import com.lending.dao.DBConnector;
 import com.lending.model.enums.LoanTarget;
 import com.lending.model.enums.Occupation;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 /**
@@ -14,10 +19,8 @@ public class FilterService {
     private LoanTarget target;
     private String userTarget = "0";
 
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[33m";
-
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[33m";
 
     Scanner scanner = new Scanner(System.in);
 
@@ -84,7 +87,21 @@ public class FilterService {
                 break;
         }
     }
-    public void getAvailableLoans(){
+    public void getAvailableLoans() throws SQLException {
+        String loanQuery = "select ofBank, size, interest, termInDays, earlyRepaiment from loans";
+        String bankQuery = "select name from banks";
 
+        DBConnector db = new DBConnector();
+        Connection connection = db.getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(bankQuery);
+        while (resultSet.next()){
+            String name = resultSet.getString(1);
+            System.out.printf("%s \n", name);
+            ResultSet loanSet = statement.executeQuery(loanQuery);
+            while (loanSet.next()){
+                System.out.println();
+            }
+        }
     }
 }
