@@ -1,15 +1,14 @@
 package com.lending.factory.impl;
 
-import com.lending.factory.LoanFactory;
+import com.lending.factory.TargetLoanFactory;
 import com.lending.model.loans.TargetLoan;
-import com.lending.model.loans.TargetLoanInfo;
 
 /**
  * Created by BOSSJNR on 28.09.2019.
  */
-public class LoanFactoryImpl implements LoanFactory {
+public class TargetLoanFactoryImpl implements TargetLoanFactory {
 
-    public TargetLoan getTargetLoan(TargetLoanInfo loanInfo) {
+    public TargetLoan getTargetLoan(TargetLoan loanInfo) {
         TargetLoan targetLoan = new TargetLoan();
         targetLoan.setLoanSize(loanInfo.getLoanSize());
         targetLoan.setLoanInterest(loanInfo.getLoanInterest());

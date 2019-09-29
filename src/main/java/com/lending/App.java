@@ -1,10 +1,11 @@
 package com.lending;
 
 import com.lending.dao.DBConnector;
+import com.lending.model.loans.TargetLoan;
 import com.lending.service.FilterService;
 import com.lending.service.UserViewService;
 
-import java.io.File;
+import java.sql.SQLException;
 
 /**
  * Created by BOSSJNR on 28.09.2019.
@@ -18,10 +19,18 @@ public class App {
         DBConnector db = new DBConnector();
         UserViewService ui = new UserViewService();
         FilterService filter = new FilterService();
+        TargetLoan loanInfo = new TargetLoan();
 
         db.dropDB();
         db.connectToBanks();
         ui.greeting();
-        filter.getUserTarget();
+        ui.requestTarget();
+        ui.requestOccupation();
+        ui.showAvailableLoans();
+        try {
+            loanInfo.formLoans();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

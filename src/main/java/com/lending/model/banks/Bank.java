@@ -1,9 +1,9 @@
 package com.lending.model.banks;
 
-import com.lending.model.loans.Loan;
 import com.lending.model.loans.TargetLoan;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by BOSSJNR on 28.09.2019.
@@ -11,8 +11,18 @@ import java.util.ArrayList;
 
 public class Bank {
 
+    private int bankId;
     private String name;
-    private ArrayList<Loan> loans = new ArrayList();
+    private List<TargetLoan> loans = new ArrayList<>();
+
+
+    public int getBankId() {
+        return bankId;
+    }
+
+    public void setBankId(int bankId) {
+        this.bankId = bankId;
+    }
 
     public String getName() {
         return name;
@@ -22,17 +32,11 @@ public class Bank {
         this.name = name;
     }
 
-    public void addTargetLoan(TargetLoan tL) {
-        loans.add(tL);
-    }
-
-    public void setLoans(ArrayList<Loan> loans) {
-        this.loans = loans;
-    }
-
-    public ArrayList<Loan> getLoans() {
+    public List<TargetLoan> getLoans() {
         return loans;
     }
 
-
+    public void setLoans(List<TargetLoan> loans) {
+        this.loans = loans;
+    }
 }

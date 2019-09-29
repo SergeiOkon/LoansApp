@@ -8,7 +8,7 @@ CREATE TABLE loans
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     ofBank INT(11),
     size INT(11),
-    interest INT(11),
+    interest DECIMAL(10,2),
     termInDays INT(11),
     earlyRepaiment TINYINT(1) DEFAULT '0',
     CONSTRAINT ofBank FOREIGN KEY (ofBank) REFERENCES banks (id)

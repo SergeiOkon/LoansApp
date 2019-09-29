@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -30,7 +31,6 @@ public class DBConnector {
     }
 
     public void connectToBanks() {
-        // TODO:заполнить базу данных банками и займами
         Connection connection = null;
         try {
             connection = getConnection();
@@ -44,9 +44,7 @@ public class DBConnector {
                     new FileReader("src/main/resources/sql/fillDB.sql"));
             scriptRunner.runScript(create);
             scriptRunner.runScript(fill);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -63,9 +61,7 @@ public class DBConnector {
                     new FileReader("src/main/resources/sql/drop.sql"));
             scriptRunner.runScript(drop);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
