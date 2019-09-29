@@ -1,0 +1,16 @@
+INSERT INTO banks VALUES(1, 'OmegaBank');
+INSERT INTO banks VALUES(2, 'ZincBank');
+INSERT INTO banks VALUES(3, 'UkrBank');
+INSERT INTO banks VALUES(4, 'CreditAperol');
+INSERT INTO loans VALUES(1, 1, 10000, 5, 30, 0);
+INSERT INTO loans VALUES(2, 1, 20000, 5, 60, 0);
+INSERT INTO loans VALUES(3, 1, 100000, 15, 730, 0);
+INSERT INTO loans VALUES(4, 1, 100000, 20, 1095, 1);
+INSERT INTO loans VALUES(5, 1, 50000, 15, 365, 0);
+INSERT INTO loans VALUES(6, 1, 50000, 15, 730, 1);
+INSERT INTO loans VALUES(7, 1, 200000, 5, 1825, 1);
+INSERT INTO loans VALUES(8, 1, 300000, 5, 2190, 1);
+INSERT INTO support_occupation VALUES(1, 1, 1, 1, 1, 0, 1, 1);
+INSERT INTO support_occupation VALUES(2, 2, 1, 1, 1, 0, 1, 1);
+INSERT INTO support_occupation VALUES(3, 3, 1, 1, 1, 0, 1, 1);
+INSERT INTO support_occupation VALUES(4, 4, 1, 1, 1, 0, 1, 1);
