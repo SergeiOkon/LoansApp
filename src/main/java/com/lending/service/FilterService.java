@@ -1,9 +1,14 @@
 package com.lending.service;
 
+import com.lending.App;
 import com.lending.dao.DBConnector;
 import com.lending.model.loans.TargetLoan;
 
+import java.io.BufferedReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.sql.*;
+import java.sql.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,14 +17,17 @@ import java.util.stream.Collectors;
  */
 public class FilterService {
     private String userOccupation;
-    private int target;
+    private String occupation;
     private String userTarget;
-    private int occupation;
+    private String target;
     private List<String> bankNames = new ArrayList<>();
     private Map<Integer, TargetLoan> loans = new TreeMap<>();
     static int bankCount;
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[33m";
+    private static final String ANSI_CYAN = "\u001B[35m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_LAGUNA = "\u001B[36m";
 
     Scanner scanner = new Scanner(System.in);
 
@@ -27,23 +35,23 @@ public class FilterService {
         userTarget = scanner.nextLine();
         switch (userTarget) {
             case "1":
-                target = 1;
+                target = "vehicle";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (1) Покупка автомобиля----------------------\u23F9" + ANSI_GREEN);
                 break;
             case ("2"):
-                target = 2;
+                target = "real_estate";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (2) Покупка недвижимости--------------------\u23F9" + ANSI_GREEN);
                 break;
             case ("3"):
-                target = 3;
+                target = "consumer";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (3) Потребительский кредит------------------\u23F9" + ANSI_GREEN);
                 break;
             case ("4"):
-                target = 4;
+                target = "house_repairs";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (4) Ремонт квартиры-------------------------\u23F9" + ANSI_GREEN);
                 break;
             case ("5"):
-                target = 5;
+                target = "business";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (5) Открытие бизнеса------------------------\u23F9" + ANSI_GREEN);
                 break;
             default:
@@ -57,27 +65,27 @@ public class FilterService {
         userOccupation = scanner.nextLine();
         switch (userOccupation) {
             case "1":
-                occupation = 1;
+                occupation = "work_officially";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (1) Работаю---------------------------------\u23F9" + ANSI_GREEN);
                 break;
             case ("2"):
-                occupation = 2;
+                occupation = "temp_not_work";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (2) Временно не работаю---------------------\u23F9" + ANSI_GREEN);
                 break;
             case ("3"):
-                occupation = 3;
+                occupation = "businessman";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (3) Предприниматель-------------------------\u23F9" + ANSI_GREEN);
                 break;
             case ("4"):
-                occupation = 4;
+                occupation = "retiree";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (4) Пенсионер-------------------------------\u23F9" + ANSI_GREEN);
                 break;
             case ("5"):
-                occupation = 5;
+                occupation = "student";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (5) Студент---------------------------------\u23F9" + ANSI_GREEN);
                 break;
             case ("6"):
-                occupation = 6;
+                occupation = "maternity_leave";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (6) Декретный отпуск------------------------\u23F9" + ANSI_GREEN);
                 break;
             default:
@@ -87,8 +95,24 @@ public class FilterService {
         }
     }
 
-    public void getAvailableLoans() throws SQLException {
+    public void getUserCreditMenu() {
+        String userInput = scanner.nextLine();
+        if(userInput.equals("x")){
+            System.exit(0);
+        } else if(userInput.equals("c")){
+            App.runApp();
+            return;
+        } else {
+            if(loans.containsKey(Integer.parseInt(userInput))) {
+                System.out.println(ANSI_LAGUNA + "Вы выбрали:" + "\n" + ANSI_GREEN + loans.get(Integer.parseInt(userInput)) + ANSI_RESET);
+            } else {
+                System.out.println(ANSI_RED + "Введите снова:" + ANSI_RESET);
+                getUserCreditMenu();
+            }
+        }
+    }
 
+    public void printLoansForUser() throws SQLException {
         String bankQuery = "select name from banks";
 
         DBConnector db = new DBConnector();
@@ -99,12 +123,10 @@ public class FilterService {
         while (resultSet.next()) {
             String name = resultSet.getString(1);
             bankNames.add(name);
-            System.out.printf("\u001B[34m" + "%s \n", name);
+            System.out.printf(ANSI_GREEN + name + "\n" + ANSI_RESET);
 
             for (bankCount = 1; bankCount < bankNames.size() + 1; bankCount++) {
-                PreparedStatement preparedStatement = connection.prepareStatement("select id, ofBank, size, interest, termInDays, earlyRepaiment from loans WHERE ofBank = ?");
-                preparedStatement.setInt(1, bankCount);
-
+                PreparedStatement preparedStatement = connection.prepareStatement("select id, ofBank, size, interest, termInDays, earlyRepaiment from loans WHERE " + occupation + " = 1 AND " + target + " = 1");
                 ResultSet loanSet = preparedStatement.executeQuery();
                 while (loanSet.next()) {
                     TargetLoan targetLoan = new TargetLoan();
@@ -121,19 +143,10 @@ public class FilterService {
         }
     }
 
-    private void printLoansForUser() throws SQLException {
-        DBConnector db = new DBConnector();
-        Connection connection = db.getConnection();
-        Statement statement = connection.createStatement();
-        PreparedStatement preparedStatement = connection
-                .prepareStatement("select ?, ? from loans WHERE ? = 1 AND ? = 1"); // 1 - 1 ответ юзера 2 - второй ответ юзера 3 - 1 ответ юзера 4- 2 ответ юзера
-        //TODO: сделать персональный запрос в DB и вывод пользователю
-    }
-
     private void printLoansByBank() {
         for (Map.Entry<Integer, TargetLoan> entry : loans.entrySet()) {
             if (bankNames.size() == entry.getValue().getBankId()) {
-                System.out.println(entry.getValue());
+                System.out.println(ANSI_CYAN + entry.getValue());
             }
         }
     }

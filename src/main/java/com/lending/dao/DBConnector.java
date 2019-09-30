@@ -25,8 +25,6 @@ public class DBConnector {
         String url = resource.getString("db.url");
         String user = resource.getString("db.user");
         String pass = resource.getString("db.password");
-
-        System.out.println("Connected to CreditApp DB");
         return DriverManager.getConnection(url, user, pass);
     }
 

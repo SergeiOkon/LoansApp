@@ -15,7 +15,7 @@ public class App {
         runApp();
     }
 
-    static void runApp() {
+    public static void runApp() {
         DBConnector db = new DBConnector();
         UserViewService ui = new UserViewService();
         FilterService filter = new FilterService();
@@ -31,5 +31,6 @@ public class App {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        ui.showSelectMenu();
     }
 }

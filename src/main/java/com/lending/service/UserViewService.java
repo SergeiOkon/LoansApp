@@ -39,8 +39,13 @@ public class UserViewService {
         filter.getUserOccupation();
     }
     public void showAvailableLoans() throws SQLException {
-
-        filter.getAvailableLoans();
+        System.out.println(ANSI_CYAN + "\u23F9--Актуальные кредитные предложения:----------------------\u23F9" + ANSI_CYAN);
+        filter.printLoansForUser();
+    }
+    public void showSelectMenu(){
+        System.out.println(ANSI_CYAN + "\u23F9--Выйти(x)/Сменить данные(c)-------------------------------\u23F9" + ANSI_CYAN);
+        System.out.println(ANSI_CYAN + "\u23F9--Введите цифру отвечающую желаемому кредиту:--------------\u23F9" + ANSI_CYAN);
+        filter.getUserCreditMenu();
     }
 
 }

@@ -1,13 +1,6 @@
 package com.lending.model.loans;
 
-import com.lending.dao.DBConnector;
-import com.lending.model.banks.Bank;
-import com.lending.model.enums.LoanTarget;
-import com.lending.model.enums.Occupation;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.lending.service.FilterService;
 
 /**
  * Created by BOSSJNR on 28.09.2019.
@@ -68,11 +61,25 @@ public class TargetLoan {
         this.earlyRepayment = earlyRepayment;
     }
 
+    private String convertEarlyPayment(boolean earlyRepayment){
+        if(earlyRepayment == true){
+            return "возможно";
+        } else {
+            return "не возможно";
+        }
+    }
+    private String convertLoanTermInDays(int loanTermInDays){
+        if(loanTermInDays < 365){
+            return loanTermInDays + " дней";
+        } else {
+            return Double.toString((double)(loanTermInDays) / 365) + " год(a)";
+        }
+    }
     @Override
     public String toString() {
-        return  " loanSize=" + loanSize +
-                ", loanTermInDays=" + loanTermInDays +
-                ", loanInterest=" + loanInterest +
-                ", earlyRepayment=" + earlyRepayment;
+        return  "►" + id + " Сумма кредита: " + loanSize +
+                ", срок выплаты: " + convertLoanTermInDays(loanTermInDays) + ",\n" +
+                "процентная ставка: " + loanInterest + "%" +
+                ", досрочное погашение: " + convertEarlyPayment(earlyRepayment);
     }
 }
