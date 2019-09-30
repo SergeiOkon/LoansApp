@@ -11,9 +11,7 @@ import java.util.*;
  * Created by BOSSJNR on 28.09.2019.
  */
 public class FilterService {
-    private String userOccupation;
     private String occupation;
-    private String userTarget;
     private String target;
     private List<String> bankNames = new ArrayList<>();
     private Map<Integer, TargetLoan> loans = new TreeMap<>();
@@ -26,10 +24,14 @@ public class FilterService {
 
     Scanner scanner = new Scanner(System.in);
 
+    public String getUserInput(){
+        return scanner.nextLine();
+    }
+
     public void getUserTarget() {
-        userTarget = scanner.nextLine();
+        String userTarget = getUserInput();
         switch (userTarget) {
-            case "1":
+            case ("1"):
                 target = "vehicle";
                 System.out.println(ANSI_GREEN + "\u23F9--Вы выбрали (1) Покупка автомобиля----------------------\u23F9" + ANSI_GREEN);
                 break;
@@ -57,7 +59,7 @@ public class FilterService {
     }
 
     public void getUserOccupation() {
-        userOccupation = scanner.nextLine();
+        String userOccupation = getUserInput();
         switch (userOccupation) {
             case "1":
                 occupation = "work_officially";
@@ -91,7 +93,7 @@ public class FilterService {
     }
 
     public void getUserCreditMenu() {
-        String userInput = scanner.nextLine();
+        String userInput = getUserInput();
         if (userInput.equals("x")) {
             System.exit(0);
         } else if (userInput.equals("c")) {
@@ -138,11 +140,53 @@ public class FilterService {
         }
     }
 
-    private void printLoansByBank() {
+    public void printLoansByBank() {
         for (Map.Entry<Integer, TargetLoan> entry : loans.entrySet()) {
             if (bankNames.size() == entry.getValue().getBankId()) {
                 System.out.println(ANSI_CYAN + entry.getValue());
             }
         }
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public List<String> getBankNames() {
+        return bankNames;
+    }
+
+    public int printLoansByBank(int i) {
+        loans.clear();
+        for (Map.Entry<Integer, TargetLoan> entry : loans.entrySet()) {
+            if (bankNames.size() == entry.getValue().getBankId()) {
+                System.out.println(ANSI_CYAN + entry.getValue());
+            }
+        }
+        return i;
+    }
+
+    public void setBankNames(List<String> bankNames) {
+        this.bankNames = bankNames;
+    }
+
+    public Map<Integer, TargetLoan> getLoans() {
+        return loans;
+    }
+
+    public void setLoans(Map<Integer, TargetLoan> loans) {
+        this.loans = loans;
     }
 }

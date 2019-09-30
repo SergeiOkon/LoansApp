@@ -60,7 +60,7 @@ public class TargetLoan {
     }
 
     private String convertEarlyPayment(boolean earlyRepayment) {
-        if (earlyRepayment == true) {
+        if (earlyRepayment) {
             return "возможно";
         } else {
             return "не возможно";
