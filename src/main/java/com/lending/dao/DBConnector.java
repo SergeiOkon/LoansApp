@@ -24,13 +24,10 @@ public class DBConnector {
         String url = resource.getString("db.url");
         String user = resource.getString("db.user");
         String pass = resource.getString("db.password");
-
-        System.out.println("Connected to CreditApp DB");
         return DriverManager.getConnection(url, user, pass);
     }
 
     public void connectToBanks() {
-        // TODO:заполнить базу данных банками и займами
         Connection connection = null;
         try {
             connection = getConnection();
@@ -44,9 +41,7 @@ public class DBConnector {
                     new FileReader("src/main/resources/sql/fillDB.sql"));
             scriptRunner.runScript(create);
             scriptRunner.runScript(fill);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -63,9 +58,7 @@ public class DBConnector {
                     new FileReader("src/main/resources/sql/drop.sql"));
             scriptRunner.runScript(drop);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
