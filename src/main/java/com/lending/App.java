@@ -1,8 +1,6 @@
 package com.lending;
 
 import com.lending.dao.DBConnector;
-import com.lending.model.loans.TargetLoan;
-import com.lending.service.FilterService;
 import com.lending.service.UserViewService;
 
 import java.sql.SQLException;
@@ -18,8 +16,6 @@ public class App {
     public static void runApp() {
         DBConnector db = new DBConnector();
         UserViewService ui = new UserViewService();
-        FilterService filter = new FilterService();
-        TargetLoan loanInfo = new TargetLoan();
 
         db.dropDB();
         db.connectToBanks();
