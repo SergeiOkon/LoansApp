@@ -8,9 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by BOSSJNR on 28.09.2019.
  */
-
-public class Bank {
-
+public class BankInfo {
     private String name;
     private ArrayList<Loan> loans = new ArrayList();
 
