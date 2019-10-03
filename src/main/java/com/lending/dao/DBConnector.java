@@ -1,6 +1,7 @@
 package com.lending.dao;
 
 import com.ibatis.common.jdbc.ScriptRunner;
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,12 +19,15 @@ public class DBConnector {
     private String url = "jdbc:mysql://localhost/creditapp?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private String login = "root";
     private String password = "adultswim";
+    private static final Logger LOG = Logger.getLogger(DBConnector.class);
+
 
     public static Connection getConnection() throws SQLException {
         ResourceBundle resource = ResourceBundle.getBundle("database");
         String url = resource.getString("db.url");
         String user = resource.getString("db.user");
         String pass = resource.getString("db.password");
+        LOG.info("Connected to DB");
         return DriverManager.getConnection(url, user, pass);
     }
 
@@ -61,5 +65,6 @@ public class DBConnector {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
+        LOG.info("Dropped DB");
     }
 }

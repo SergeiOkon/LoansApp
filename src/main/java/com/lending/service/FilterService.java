@@ -3,6 +3,7 @@ package com.lending.service;
 import com.lending.App;
 import com.lending.dao.DBConnector;
 import com.lending.model.loans.TargetLoan;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.*;
@@ -23,6 +24,7 @@ public class FilterService {
     private static final String ANSI_LAGUNA = "\u001B[36m";
 
     Scanner scanner = new Scanner(System.in);
+    private static final Logger LOG = Logger.getLogger(FilterService.class);
 
     public String getUserInput(){
         return scanner.nextLine();
@@ -56,6 +58,7 @@ public class FilterService {
                 getUserTarget();
                 break;
         }
+        LOG.info("Waiting fot user`s target input");
     }
 
     public void getUserOccupation() {
@@ -90,11 +93,13 @@ public class FilterService {
                 getUserOccupation();
                 break;
         }
+        LOG.info("Waiting fot user`s occupation input");
     }
 
     public void getUserCreditMenu() {
         String userInput = getUserInput();
         if (userInput.equals("x")) {
+            LOG.info("Exiting the program");
             System.exit(0);
         } else if (userInput.equals("c")) {
             App.runApp();
