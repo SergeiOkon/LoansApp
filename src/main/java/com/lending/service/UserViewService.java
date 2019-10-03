@@ -1,13 +1,20 @@
 package com.lending.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Service;
+
 import java.sql.SQLException;
 
 /**
  * Created by BOSSJNR on 28.09.2019.
  */
+@Service
 public class UserViewService {
     private static final String ANSI_CYAN = "\u001B[36m";
-    private FilterService filter = new FilterService();
+
+    @Autowired
+    private FilterService filter;
 
     public void greeting() {
         System.out.println(ANSI_CYAN + "▲---------------------------------------------------------▲" + ANSI_CYAN);
@@ -15,7 +22,6 @@ public class UserViewService {
         System.out.println(ANSI_CYAN + "\u23F9--Мы предоставляем условия для удобного поиска кредитов--\u23F9" + ANSI_CYAN);
         System.out.println(ANSI_CYAN + "\u23F9------Для получения списков оптимальных предложений------\u23F9" + ANSI_CYAN);
         System.out.println(ANSI_CYAN + "\u23F9-------------Выберете удобные для вас условия:-----------\u23F9" + ANSI_CYAN);
-
     }
 
     public void requestTarget() {
@@ -52,4 +58,8 @@ public class UserViewService {
         filter.getUserCreditMenu();
     }
 
+    @Required
+    public void setFilter(FilterService filter){
+        this.filter = filter;
+    }
 }

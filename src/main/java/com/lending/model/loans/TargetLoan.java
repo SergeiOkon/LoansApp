@@ -1,8 +1,11 @@
 package com.lending.model.loans;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Created by BOSSJNR on 28.09.2019.
  */
+@Component
 public class TargetLoan {
     private int id;
     private int bankId;
@@ -71,7 +74,7 @@ public class TargetLoan {
         if (loanTermInDays < 365) {
             return loanTermInDays + " дней";
         } else {
-            return Double.toString((double) (loanTermInDays) / 365) + " год(a)";
+            return (double) (loanTermInDays) / 365 + " год(a)";
         }
     }
 

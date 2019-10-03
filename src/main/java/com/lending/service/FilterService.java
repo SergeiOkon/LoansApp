@@ -3,6 +3,10 @@ package com.lending.service;
 import com.lending.App;
 import com.lending.dao.DBConnector;
 import com.lending.model.loans.TargetLoan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.*;
@@ -10,6 +14,7 @@ import java.util.*;
 /**
  * Created by BOSSJNR on 28.09.2019.
  */
+@Service
 public class FilterService {
     private String occupation;
     private String target;
@@ -22,12 +27,17 @@ public class FilterService {
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_LAGUNA = "\u001B[36m";
 
+    @Autowired
+    private App app;
+
     Scanner scanner = new Scanner(System.in);
 
-    public String getUserInput(){
+    @Bean
+    public String getUserInput() {
         return scanner.nextLine();
     }
 
+    @Bean
     public void getUserTarget() {
         String userTarget = getUserInput();
         switch (userTarget) {
@@ -58,6 +68,7 @@ public class FilterService {
         }
     }
 
+    @Bean
     public void getUserOccupation() {
         String userOccupation = getUserInput();
         switch (userOccupation) {
@@ -92,13 +103,13 @@ public class FilterService {
         }
     }
 
+    @Bean
     public void getUserCreditMenu() {
         String userInput = getUserInput();
         if (userInput.equals("x")) {
             System.exit(0);
         } else if (userInput.equals("c")) {
-            App.runApp();
-            return;
+            app.runApp();
         } else {
             if (loans.containsKey(Integer.parseInt(userInput))) {
                 System.out.println(ANSI_LAGUNA + "Вы выбрали:" + "\n" + ANSI_GREEN + loans.get(Integer.parseInt(userInput)) + ANSI_RESET);
@@ -109,6 +120,7 @@ public class FilterService {
         }
     }
 
+    @Bean
     public void printLoansForUser() throws SQLException {
         String bankQuery = "select name from banks";
 
@@ -140,12 +152,18 @@ public class FilterService {
         }
     }
 
+    @Bean
     public void printLoansByBank() {
         for (Map.Entry<Integer, TargetLoan> entry : loans.entrySet()) {
             if (bankNames.size() == entry.getValue().getBankId()) {
                 System.out.println(ANSI_CYAN + entry.getValue());
             }
         }
+    }
+
+    @Required
+    public void setApp(App app) {
+        this.app = app;
     }
 
     public String getOccupation() {

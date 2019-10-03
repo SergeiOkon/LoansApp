@@ -1,6 +1,8 @@
 package com.lending.dao;
 
 import com.ibatis.common.jdbc.ScriptRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,12 +16,14 @@ import java.util.ResourceBundle;
 /**
  * Created by BOSSJNR on 28.09.2019.
  */
+@Component
 public class DBConnector {
     private String url = "jdbc:mysql://localhost/creditapp?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private String login = "root";
     private String password = "adultswim";
 
-    public static Connection getConnection() throws SQLException {
+    @Bean
+    public Connection getConnection() throws SQLException {
         ResourceBundle resource = ResourceBundle.getBundle("database");
         String url = resource.getString("db.url");
         String user = resource.getString("db.user");
@@ -27,6 +31,7 @@ public class DBConnector {
         return DriverManager.getConnection(url, user, pass);
     }
 
+    @Bean
     public void connectToBanks() {
         Connection connection = null;
         try {
@@ -46,6 +51,7 @@ public class DBConnector {
         }
     }
 
+    @Bean
     public void dropDB() {
         Connection connection = null;
         try {
