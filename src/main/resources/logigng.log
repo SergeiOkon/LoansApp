@@ -1,0 +1,9 @@
+2019-10-03 15:01:54 INFO  FilterService:61 - Waiting fot user`s target input
+2019-10-03 15:01:55 INFO  FilterService:96 - Waiting fot user`s occupation input
+2019-10-03 15:05:38 INFO  DBConnector:30 - Connected to DB
+2019-10-03 15:05:41 INFO  DBConnector:68 - Dropped DB
+2019-10-03 15:05:41 INFO  DBConnector:30 - Connected to DB
+2019-10-03 15:05:44 INFO  FilterService:61 - Waiting fot user`s target input
+2019-10-03 15:05:45 INFO  FilterService:96 - Waiting fot user`s occupation input
+2019-10-03 15:05:45 INFO  DBConnector:30 - Connected to DB
+2019-10-03 15:05:48 INFO  FilterService:102 - Exiting the program

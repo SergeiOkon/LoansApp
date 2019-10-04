@@ -4,8 +4,8 @@ import com.lending.App;
 import com.lending.dao.DBConnector;
 import com.lending.model.loans.TargetLoan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
@@ -28,9 +28,14 @@ public class FilterService {
     private static final String ANSI_LAGUNA = "\u001B[36m";
 
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+    @Autowired
     private App app;
 
-    Scanner scanner = new Scanner(System.in);
+    @Autowired
+    private DBConnector db;
+
+    private Scanner scanner = new Scanner(System.in);
 
     @Bean
     public String getUserInput() {
@@ -124,7 +129,6 @@ public class FilterService {
     public void printLoansForUser() throws SQLException {
         String bankQuery = "select name from banks";
 
-        DBConnector db = new DBConnector();
         Connection connection = db.getConnection();
         Statement statement = connection.createStatement();
 
@@ -159,11 +163,6 @@ public class FilterService {
                 System.out.println(ANSI_CYAN + entry.getValue());
             }
         }
-    }
-
-    @Required
-    public void setApp(App app) {
-        this.app = app;
     }
 
     public String getOccupation() {

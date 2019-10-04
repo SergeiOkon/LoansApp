@@ -1,7 +1,6 @@
 package com.lending.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -58,8 +57,4 @@ public class UserViewService {
         filter.getUserCreditMenu();
     }
 
-    @Required
-    public void setFilter(FilterService filter){
-        this.filter = filter;
-    }
 }

@@ -21,16 +21,6 @@ public class App {
     @Autowired
     private UserViewService ui;
 
-    @Required
-    public void setDBConnector(DBConnector db) {
-        this.db = db;
-    }
-
-    @Required
-    public void setUserViewService(UserViewService ui) {
-        this.ui = ui;
-    }
-
     @Bean
     public void runApp() {
         db.dropDB();

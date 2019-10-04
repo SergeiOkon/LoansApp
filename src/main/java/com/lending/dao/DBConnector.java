@@ -1,7 +1,10 @@
 package com.lending.dao;
 
 import com.ibatis.common.jdbc.ScriptRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -18,24 +21,24 @@ import java.util.ResourceBundle;
  */
 @Component
 public class DBConnector {
-    private String url = "jdbc:mysql://localhost/creditapp?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-    private String login = "root";
-    private String password = "adultswim";
 
-    @Bean
-    public Connection getConnection() throws SQLException {
-        ResourceBundle resource = ResourceBundle.getBundle("database");
-        String url = resource.getString("db.url");
-        String user = resource.getString("db.user");
-        String pass = resource.getString("db.password");
-        return DriverManager.getConnection(url, user, pass);
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+//    @Bean
+//    public Connection getConnection() throws SQLException {
+//        ResourceBundle resource = ResourceBundle.getBundle("database");
+//        String url = resource.getString("db.url");
+//        String user = resource.getString("db.user");
+//        String pass = resource.getString("db.password");
+//        return jdbcTemplate.get(url, user, pass);
+//    }
 
     @Bean
     public void connectToBanks() {
         Connection connection = null;
         try {
-            connection = getConnection();
+//            connection = getConnection();
 
             ScriptRunner scriptRunner = new ScriptRunner(
                     connection, false, false);
@@ -55,7 +58,7 @@ public class DBConnector {
     public void dropDB() {
         Connection connection = null;
         try {
-            connection = getConnection();
+//            connection = getConnection();
 
             ScriptRunner scriptRunner = new ScriptRunner(
                     connection, false, false);
