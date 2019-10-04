@@ -161,11 +161,6 @@ public class FilterService {
         }
     }
 
-    @Required
-    public void setApp(App app) {
-        this.app = app;
-    }
-
     public String getOccupation() {
         return occupation;
     }

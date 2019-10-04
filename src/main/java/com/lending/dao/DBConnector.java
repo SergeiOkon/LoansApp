@@ -31,8 +31,7 @@ public class DBConnector {
         return DriverManager.getConnection(url, user, pass);
     }
 
-    @Bean
-    public void connectToBanks() {
+    private void connectToBanks() {
         Connection connection = null;
         try {
             connection = getConnection();
@@ -67,5 +66,6 @@ public class DBConnector {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
+        connectToBanks();
     }
 }

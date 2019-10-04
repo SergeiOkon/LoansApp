@@ -11,9 +11,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class SpringBootConsoleApplication implements CommandLineRunner {
 
-    @Autowired
-    private App app;
-
     private static Logger LOG = LoggerFactory.getLogger(SpringBootConsoleApplication.class);
 
     public static void main(String[] args) {

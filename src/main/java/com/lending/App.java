@@ -21,20 +21,9 @@ public class App {
     @Autowired
     private UserViewService ui;
 
-    @Required
-    public void setDBConnector(DBConnector db) {
-        this.db = db;
-    }
-
-    @Required
-    public void setUserViewService(UserViewService ui) {
-        this.ui = ui;
-    }
-
     @Bean
     public void runApp() {
         db.dropDB();
-        db.connectToBanks();
         ui.greeting();
         ui.requestTarget();
         ui.requestOccupation();
@@ -44,5 +33,6 @@ public class App {
             e.printStackTrace();
         }
         ui.showSelectMenu();
+        System.exit(0);
     }
 }

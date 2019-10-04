@@ -57,9 +57,4 @@ public class UserViewService {
         System.out.println(ANSI_CYAN + "\u23F9--Введите цифру отвечающую желаемому кредиту:--------------\u23F9" + ANSI_CYAN);
         filter.getUserCreditMenu();
     }
-
-    @Required
-    public void setFilter(FilterService filter){
-        this.filter = filter;
-    }
 }
