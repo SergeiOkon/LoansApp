@@ -168,16 +168,6 @@ public class FilterService {
         return bankNames;
     }
 
-    public int printLoansByBank(int i) {
-        loans.clear();
-        for (Map.Entry<Integer, TargetLoan> entry : loans.entrySet()) {
-            if (bankNames.size() == entry.getValue().getBankId()) {
-                System.out.println(ANSI_CYAN + entry.getValue());
-            }
-        }
-        return i;
-    }
-
     public void setBankNames(List<String> bankNames) {
         this.bankNames = bankNames;
     }
