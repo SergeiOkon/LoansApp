@@ -1,10 +1,11 @@
 package com.lending.service;
 
 import com.lending.App;
-import com.lending.dao.DBConnector;
-import com.lending.model.loans.TargetLoan;
+import com.lending.persistence.DataSourceFactory;
+import com.lending.entities.TargetLoan;
 import org.apache.log4j.Logger;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
@@ -117,7 +118,7 @@ public class FilterService {
     public void printLoansForUser() throws SQLException {
         String bankQuery = "select name from banks";
 
-        DBConnector db = new DBConnector();
+        DataSource db = DataSourceFactory.getDataSource();
         Connection connection = db.getConnection();
         Statement statement = connection.createStatement();
 
@@ -128,18 +129,18 @@ public class FilterService {
             System.out.printf(ANSI_GREEN + name + "\n" + ANSI_RESET);
 
             for (bankCount = 1; bankCount < bankNames.size() + 1; bankCount++) {
-                PreparedStatement preparedStatement = connection.prepareStatement("select id, ofBank, size, interest, termInDays, earlyRepaiment from loans WHERE " + occupation + " = 1 AND " + target + " = 1");
-                ResultSet loanSet = preparedStatement.executeQuery();
-                while (loanSet.next()) {
-                    TargetLoan targetLoan = new TargetLoan();
-                    targetLoan.setId(loanSet.getInt(1));
-                    targetLoan.setBankId(loanSet.getInt(2));
-                    targetLoan.setLoanSize(loanSet.getInt(3));
-                    targetLoan.setLoanInterest(loanSet.getDouble(4));
-                    targetLoan.setLoanTermInDays(loanSet.getInt(5));
-                    targetLoan.setEarlyRepayment(loanSet.getBoolean(6));
-                    loans.put(targetLoan.getId(), targetLoan);
-                }
+//                PreparedStatement preparedStatement = connection.prepareStatement("select id, ofBank, size, interest, termInDays, earlyRepaiment from loans WHERE " + occupation + " = 1 AND " + target + " = 1");
+//                ResultSet loanSet = preparedStatement.executeQuery();
+//                while (loanSet.next()) {
+//                    TargetLoan targetLoan = new TargetLoan();
+//                    targetLoan.setId(loanSet.getInt(1));
+//                    targetLoan.setBankId(loanSet.getInt(2));
+//                    targetLoan.setLoanSize(loanSet.getInt(3));
+//                    targetLoan.setLoanInterest(loanSet.getDouble(4));
+//                    targetLoan.setLoanTermInDays(loanSet.getInt(5));
+//                    targetLoan.setEarlyRepayment(loanSet.getBoolean(6));
+//                    loans.put(targetLoan.getId(), targetLoan);
+//                }
             }
             printLoansByBank();
         }

@@ -1,37 +1,65 @@
-package com.lending.dao;
+package com.lending.persistence;
 
 import com.ibatis.common.jdbc.ScriptRunner;
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.apache.log4j.Logger;
 
+import javax.sql.DataSource;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
  * Created by BOSSJNR on 28.09.2019.
  */
-public class DBConnector {
-    private String url = "jdbc:mysql://localhost/creditapp?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-    private String login = "root";
-    private String password = "adultswim";
-    private static final Logger LOG = Logger.getLogger(DBConnector.class);
+public class DataSourceFactory {
 
+    private static final Logger LOG = Logger.getLogger(DataSourceFactory.class);
 
-    public static Connection getConnection() throws SQLException {
+    private static final DataSourceFactory INSTANCE = new DataSourceFactory();
+
+    private DataSourceFactory() {
+
+    }
+
+    public static DataSource getDataSource() {
+        return dataSource;
+    }
+
+    private static DataSource dataSource;
+
+    static {
         ResourceBundle resource = ResourceBundle.getBundle("database");
         String url = resource.getString("db.url");
         String user = resource.getString("db.user");
         String pass = resource.getString("db.password");
+
+        MysqlDataSource mysqlDataSource = new MysqlDataSource();
+        mysqlDataSource.setURL(url);
+        mysqlDataSource.setUser(user);
+        mysqlDataSource.setPassword(pass);
+
+        dataSource = mysqlDataSource;
         LOG.info("Connected to DB");
-        return DriverManager.getConnection(url, user, pass);
     }
 
-    public void connectToBanks() {
+    public static Connection getConnection() {
+        Connection connection = null;
+
+        try {
+            connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            LOG.error("Couldn't get connection!");
+        }
+
+        return connection;
+    }
+
+    public static void connectToBanks() {
         Connection connection = null;
         try {
             connection = getConnection();
@@ -50,7 +78,7 @@ public class DBConnector {
         }
     }
 
-    public void dropDB() {
+    public static void dropDB() {
         Connection connection = null;
         try {
             connection = getConnection();

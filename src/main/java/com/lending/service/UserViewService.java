@@ -52,4 +52,19 @@ public class UserViewService {
         filter.getUserCreditMenu();
     }
 
+    public static String convertEarlyPayment(boolean earlyRepayment) {
+        if (earlyRepayment) {
+            return "возможно";
+        } else {
+            return "не возможно";
+        }
+    }
+
+    public static String convertLoanTermInDays(int loanTermInDays) {
+        if (loanTermInDays < 365) {
+            return loanTermInDays + " дней";
+        } else {
+            return Double.toString((double) (loanTermInDays) / 365) + " год(a)";
+        }
+    }
 }

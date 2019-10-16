@@ -1,4 +1,6 @@
-package com.lending.model.loans;
+package com.lending.entities;
+
+import com.lending.service.UserViewService;
 
 /**
  * Created by BOSSJNR on 28.09.2019.
@@ -59,27 +61,11 @@ public class TargetLoan {
         this.earlyRepayment = earlyRepayment;
     }
 
-    private String convertEarlyPayment(boolean earlyRepayment) {
-        if (earlyRepayment) {
-            return "возможно";
-        } else {
-            return "не возможно";
-        }
-    }
-
-    private String convertLoanTermInDays(int loanTermInDays) {
-        if (loanTermInDays < 365) {
-            return loanTermInDays + " дней";
-        } else {
-            return Double.toString((double) (loanTermInDays) / 365) + " год(a)";
-        }
-    }
-
     @Override
     public String toString() {
         return "►" + id + " Сумма кредита: " + loanSize +
-                ", срок выплаты: " + convertLoanTermInDays(loanTermInDays) + ",\n" +
+                ", срок выплаты: " + UserViewService.convertLoanTermInDays(loanTermInDays) + ",\n" +
                 "процентная ставка: " + loanInterest + "%" +
-                ", досрочное погашение: " + convertEarlyPayment(earlyRepayment);
+                ", досрочное погашение: " + UserViewService.convertEarlyPayment(earlyRepayment);
     }
 }
