@@ -1,11 +1,7 @@
 package com.lending;
 
-import com.lending.dao.TargetLoanDao;
-import com.lending.entities.TargetLoan;
-import com.lending.persistence.DataSourceFactory;
 import com.lending.service.UserViewService;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 
 import static com.lending.persistence.DataSourceFactory.connectToBanks;
@@ -20,21 +16,19 @@ public class App {
     }
 
     public static void runApp() {
-        TargetLoanDao targetLoanDao = new TargetLoanDao();
+        UserViewService ui = new UserViewService();
 
+        dropDB();
+        connectToBanks();
 
-//        dropDB();
-//        connectToBanks();
-        System.out.println(targetLoanDao.getById(5));
-
-//        ui.greeting();
-//        ui.requestTarget();
-//        ui.requestOccupation();
-//        try {
-//            ui.showAvailableLoans();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        ui.showSelectMenu();
+        ui.greeting();
+        ui.requestTarget();
+        ui.requestOccupation();
+        try {
+            ui.showAvailableLoans();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ui.showSelectMenu();
     }
 }
