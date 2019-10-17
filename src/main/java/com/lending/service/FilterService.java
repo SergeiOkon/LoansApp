@@ -143,12 +143,4 @@ public class FilterService {
         }
     }
 
-    public void printLoansByBank() {
-        for (Map.Entry<Integer, TargetLoan> entry : TargetLoanDao.getLoans().entrySet()) {
-            if (TargetLoanDao.getBankNames().size() == entry.getValue().getBankId()) {
-                System.out.println(ANSI_CYAN + entry.getValue());
-            }
-        }
-    }
-
 }
