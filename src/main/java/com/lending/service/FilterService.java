@@ -1,37 +1,45 @@
 package com.lending.service;
 
 import com.lending.App;
-import com.lending.dao.DBConnector;
-import com.lending.model.loans.TargetLoan;
+import com.lending.dao.TargetLoanDao;
+import com.lending.entities.TargetLoan;
+import com.lending.entities.UserInfo;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Created by BOSSJNR on 28.09.2019.
  */
 public class FilterService {
-    private String occupation;
-    private String target;
-    private List<String> bankNames = new ArrayList<>();
-    private Map<Integer, TargetLoan> loans = new TreeMap<>();
-    static int bankCount;
+
+    private static final Logger LOG = Logger.getLogger(FilterService.class);
+
+    private static TargetLoanDao targetLoanDao;
+    private static UserInfo userInfo;
+
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[33m";
     private static final String ANSI_CYAN = "\u001B[35m";
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_LAGUNA = "\u001B[36m";
 
-    Scanner scanner = new Scanner(System.in);
-    private static final Logger LOG = Logger.getLogger(FilterService.class);
+    private Scanner scanner = new Scanner(System.in);
 
-    public String getUserInput(){
+    public FilterService() {
+        targetLoanDao = new TargetLoanDao();
+        userInfo = new UserInfo();
+    }
+
+    public String getUserInput() {
         return scanner.nextLine();
     }
 
     public void getUserTarget() {
         String userTarget = getUserInput();
+        String target = "consumer";
         switch (userTarget) {
             case ("1"):
                 target = "vehicle";
@@ -58,11 +66,13 @@ public class FilterService {
                 getUserTarget();
                 break;
         }
+        userInfo.setTarget(target);
         LOG.info("Waiting fot user`s target input");
     }
 
     public void getUserOccupation() {
         String userOccupation = getUserInput();
+        String occupation = "temp_not_work";
         switch (userOccupation) {
             case "1":
                 occupation = "work_officially";
@@ -93,6 +103,8 @@ public class FilterService {
                 getUserOccupation();
                 break;
         }
+        userInfo.setOccupation(occupation);
+
         LOG.info("Waiting fot user`s occupation input");
     }
 
@@ -103,10 +115,9 @@ public class FilterService {
             System.exit(0);
         } else if (userInput.equals("c")) {
             App.runApp();
-            return;
         } else {
-            if (loans.containsKey(Integer.parseInt(userInput))) {
-                System.out.println(ANSI_LAGUNA + "Вы выбрали:" + "\n" + ANSI_GREEN + loans.get(Integer.parseInt(userInput)) + ANSI_RESET);
+            if (TargetLoanDao.getLoans().containsKey(Integer.parseInt(userInput))) {
+                System.out.println(ANSI_LAGUNA + "Вы выбрали:" + "\n" + ANSI_GREEN + TargetLoanDao.getLoans().get(Integer.parseInt(userInput)) + ANSI_RESET);
             } else {
                 System.out.println(ANSI_RED + "Введите снова:" + ANSI_RESET);
                 getUserCreditMenu();
@@ -115,73 +126,20 @@ public class FilterService {
     }
 
     public void printLoansForUser() throws SQLException {
-        String bankQuery = "select name from banks";
 
-        DBConnector db = new DBConnector();
-        Connection connection = db.getConnection();
-        Statement statement = connection.createStatement();
+        TargetLoanDao.getAllBankNames();
 
-        ResultSet resultSet = statement.executeQuery(bankQuery);
-        while (resultSet.next()) {
-            String name = resultSet.getString(1);
-            bankNames.add(name);
-            System.out.printf(ANSI_GREEN + name + "\n" + ANSI_RESET);
+        for (Map.Entry<Integer, String> entry : TargetLoanDao.getBankNames().entrySet()) {
 
-            for (bankCount = 1; bankCount < bankNames.size() + 1; bankCount++) {
-                PreparedStatement preparedStatement = connection.prepareStatement("select id, ofBank, size, interest, termInDays, earlyRepaiment from loans WHERE " + occupation + " = 1 AND " + target + " = 1");
-                ResultSet loanSet = preparedStatement.executeQuery();
-                while (loanSet.next()) {
-                    TargetLoan targetLoan = new TargetLoan();
-                    targetLoan.setId(loanSet.getInt(1));
-                    targetLoan.setBankId(loanSet.getInt(2));
-                    targetLoan.setLoanSize(loanSet.getInt(3));
-                    targetLoan.setLoanInterest(loanSet.getDouble(4));
-                    targetLoan.setLoanTermInDays(loanSet.getInt(5));
-                    targetLoan.setEarlyRepayment(loanSet.getBoolean(6));
-                    loans.put(targetLoan.getId(), targetLoan);
+            System.out.printf(ANSI_GREEN + entry.getValue() + "\n" + ANSI_RESET);
+
+            targetLoanDao.getAvailableLoansByBank(userInfo, entry.getKey());
+
+            for (Map.Entry<Integer, TargetLoan> loan : TargetLoanDao.getLoans().entrySet()) {
+                if (loan.getValue().getBankId() == entry.getKey()) {
+                    System.out.println(ANSI_CYAN + loan.getValue());
                 }
             }
-            printLoansByBank();
         }
-    }
-
-    public void printLoansByBank() {
-        for (Map.Entry<Integer, TargetLoan> entry : loans.entrySet()) {
-            if (bankNames.size() == entry.getValue().getBankId()) {
-                System.out.println(ANSI_CYAN + entry.getValue());
-            }
-        }
-    }
-
-    public String getOccupation() {
-        return occupation;
-    }
-
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public List<String> getBankNames() {
-        return bankNames;
-    }
-
-    public void setBankNames(List<String> bankNames) {
-        this.bankNames = bankNames;
-    }
-
-    public Map<Integer, TargetLoan> getLoans() {
-        return loans;
-    }
-
-    public void setLoans(Map<Integer, TargetLoan> loans) {
-        this.loans = loans;
     }
 }

@@ -1,9 +1,11 @@
 package com.lending;
 
-import com.lending.dao.DBConnector;
 import com.lending.service.UserViewService;
 
 import java.sql.SQLException;
+
+import static com.lending.persistence.DataSourceFactory.connectToBanks;
+import static com.lending.persistence.DataSourceFactory.dropDB;
 
 /**
  * Created by BOSSJNR on 28.09.2019.
@@ -14,11 +16,11 @@ public class App {
     }
 
     public static void runApp() {
-        DBConnector db = new DBConnector();
         UserViewService ui = new UserViewService();
 
-        db.dropDB();
-        db.connectToBanks();
+        dropDB();
+        connectToBanks();
+
         ui.greeting();
         ui.requestTarget();
         ui.requestOccupation();
